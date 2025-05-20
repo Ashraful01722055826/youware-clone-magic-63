@@ -17,7 +17,7 @@ const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hello! I'm an AI assistant. How can I help you today?",
+      text: "Hello! I'm an AI assistant powered by Google Gemini. How can I help you today?",
       sender: "ai",
       timestamp: new Date(),
     },
@@ -53,38 +53,42 @@ const Chat: React.FC = () => {
     setLoading(true);
     
     try {
-      // Use the API key to call the OpenAI API
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      // Use the API key to call the Google Gemini API
+      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
+          "x-goog-api-key": apiKey || ""
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
-          messages: [
-            { 
-              role: "system", 
-              content: "You are a helpful AI assistant. Provide concise and accurate responses."
-            },
-            ...messages.map(msg => ({
-              role: msg.sender === "user" ? "user" : "assistant",
-              content: msg.text
-            })),
-            { role: "user", content: text }
+          contents: [
+            {
+              role: "user",
+              parts: [
+                { 
+                  text: text 
+                }
+              ]
+            }
           ],
-          temperature: 0.7,
-          max_tokens: 1000
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 1000,
+            topP: 0.8,
+            topK: 40
+          }
         })
       });
       
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error?.message || "Failed to get response from AI");
+        throw new Error(errorData.error?.message || "Failed to get response from Gemini");
       }
       
       const data = await response.json();
-      const aiReply = data.choices[0].message.content;
+      
+      // Extract text from Gemini's response format
+      const aiReply = data.candidates[0].content.parts[0].text;
       
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -95,18 +99,18 @@ const Chat: React.FC = () => {
       
       setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
-      console.error("Error calling AI API:", error);
+      console.error("Error calling Gemini API:", error);
       
       // Add error message to chat
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: `Sorry, there was an error processing your request. Please check your API key and try again. Error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        text: `Sorry, there was an error processing your request. Please check your Google API key and try again. Error: ${error instanceof Error ? error.message : "Unknown error"}`,
         sender: "ai",
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, errorMessage]);
-      toast.error("Failed to get AI response. Please check your API key.");
+      toast.error("Failed to get Gemini response. Please check your API key.");
     } finally {
       setLoading(false);
     }
@@ -116,14 +120,14 @@ const Chat: React.FC = () => {
     localStorage.setItem("ai_api_key", key);
     setApiKey(key);
     setShowSettings(false);
-    toast.success("API key saved successfully");
+    toast.success("Google Gemini API key saved successfully");
   };
 
   const handleClearChat = () => {
     setMessages([
       {
         id: "1",
-        text: "Hello! I'm an AI assistant. How can I help you today?",
+        text: "Hello! I'm an AI assistant powered by Google Gemini. How can I help you today?",
         sender: "ai",
         timestamp: new Date(),
       },
@@ -178,7 +182,7 @@ const Chat: React.FC = () => {
           {!apiKey && (
             <div className="p-3 bg-yellow-900 bg-opacity-30 text-center">
               <p className="text-yellow-200 text-sm">
-                Please set your API key in settings to start chatting.
+                Please set your Google Gemini API key in settings to start chatting.
               </p>
             </div>
           )}
