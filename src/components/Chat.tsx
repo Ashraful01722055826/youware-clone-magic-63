@@ -17,7 +17,7 @@ const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hello! I'm an AI assistant powered by Google Gemini. How can I help you today?",
+      text: "Hello! I'm an AI Assistant powered by Google Gemini. How can I help you today?",
       sender: "ai",
       timestamp: new Date(),
     },

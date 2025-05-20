@@ -24,7 +24,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, sender, timestamp = 
               sender === "user" ? "bg-teal-800 text-white" : "bg-gray-700 text-cyan-400"
             )}
           >
-            {sender === "user" ? "Y" : "G"}
+            {sender === "user" ? "Y" : "A"}
           </div>
         </div>
         <div
@@ -37,7 +37,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, sender, timestamp = 
         >
           <div className="flex items-center mb-1">
             <span className={cn("text-xs font-medium", sender === "user" ? "text-teal-400" : "text-cyan-400")}>
-              {sender === "user" ? "You" : "Gemini AI"}
+              {sender === "user" ? "You" : "AI Assistant"}
             </span>
           </div>
           <p className="text-sm break-words">{message}</p>
