@@ -52,19 +52,64 @@ const Chat: React.FC = () => {
     setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
     
-    // In a real app, you would call the AI API here
-    // For now, we'll simulate a response
-    setTimeout(() => {
+    try {
+      // Use the API key to call the OpenAI API
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            { 
+              role: "system", 
+              content: "You are a helpful AI assistant. Provide concise and accurate responses."
+            },
+            ...messages.map(msg => ({
+              role: msg.sender === "user" ? "user" : "assistant",
+              content: msg.text
+            })),
+            { role: "user", content: text }
+          ],
+          temperature: 0.7,
+          max_tokens: 1000
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || "Failed to get response from AI");
+      }
+      
+      const data = await response.json();
+      const aiReply = data.choices[0].message.content;
+      
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: `I received your message: "${text}". This is a simulated response since this is a demo. In a real application, this would connect to an AI API using your provided key.`,
+        text: aiReply,
         sender: "ai",
         timestamp: new Date(),
       };
       
       setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+      console.error("Error calling AI API:", error);
+      
+      // Add error message to chat
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: `Sorry, there was an error processing your request. Please check your API key and try again. Error: ${error instanceof Error ? error.message : "Unknown error"}`,
+        sender: "ai",
+        timestamp: new Date(),
+      };
+      
+      setMessages((prev) => [...prev, errorMessage]);
+      toast.error("Failed to get AI response. Please check your API key.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const handleSaveApiKey = (key: string) => {
