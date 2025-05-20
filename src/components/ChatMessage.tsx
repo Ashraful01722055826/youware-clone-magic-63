@@ -17,17 +17,27 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, sender, timestamp = 
       )}
     >
       <div className="flex items-start max-w-[80%]">
+        <div className="flex items-center">
+          <div 
+            className={cn(
+              "flex justify-center items-center w-8 h-8 rounded-full mr-2",
+              sender === "user" ? "bg-teal-800 text-white" : "bg-gray-700 text-cyan-400"
+            )}
+          >
+            {sender === "user" ? "Y" : "G"}
+          </div>
+        </div>
         <div
           className={cn(
             "rounded-lg px-4 py-2",
             sender === "user"
-              ? "bg-chat-user text-white rounded-tr-none"
-              : "bg-chat-ai text-white rounded-tl-none"
+              ? "bg-gray-800 text-white rounded-tr-none"
+              : "bg-gray-800 text-white rounded-tl-none border-l-2 border-cyan-400"
           )}
         >
           <div className="flex items-center mb-1">
-            <span className={cn("text-xs font-medium", sender === "user" ? "text-cyan-300" : "text-chat-highlight")}>
-              {sender === "user" ? "You" : "AI Assistant"}
+            <span className={cn("text-xs font-medium", sender === "user" ? "text-teal-400" : "text-cyan-400")}>
+              {sender === "user" ? "You" : "Gemini AI"}
             </span>
           </div>
           <p className="text-sm break-words">{message}</p>

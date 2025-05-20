@@ -21,12 +21,12 @@ const ApiKeyForm: React.FC<ApiKeyFormProps> = ({ onSaveApiKey }) => {
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-gray-900 rounded-lg border border-gray-800">
       <div className="flex items-center gap-2 mb-4">
-        <Key className="h-5 w-5 text-chat-highlight" />
-        <h2 className="text-xl font-semibold text-chat-highlight">Enter your Google Gemini API Key</h2>
+        <Key className="h-5 w-5 text-cyan-400" />
+        <h2 className="text-xl font-semibold text-cyan-400">Enter your Gemini API Key</h2>
       </div>
       
       <p className="text-gray-400 text-sm mb-4">
-        Your API key is stored locally and never sent to any server other than Google's Gemini API endpoints. You can get a Gemini API key from <a href="https://makersuite.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-chat-highlight hover:underline">Google AI Studio</a>.
+        Your API key is stored locally and never sent to any server other than Google's API endpoints.
       </p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -35,8 +35,8 @@ const ApiKeyForm: React.FC<ApiKeyFormProps> = ({ onSaveApiKey }) => {
             type={showKey ? "text" : "password"}
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your Google Gemini API key..."
-            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-chat-highlight"
+            placeholder="Enter your Gemini API key..."
+            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
           <button
             type="button"
@@ -50,7 +50,7 @@ const ApiKeyForm: React.FC<ApiKeyFormProps> = ({ onSaveApiKey }) => {
         <Button
           type="submit"
           disabled={!apiKey.trim()}
-          className="w-32 bg-chat-highlight hover:bg-opacity-80 hover:bg-chat-highlight text-gray-900 font-medium"
+          className="w-32 bg-cyan-400 hover:bg-opacity-80 hover:bg-cyan-400 text-gray-900 font-medium"
         >
           SAVE KEY
         </Button>

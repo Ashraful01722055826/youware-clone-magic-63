@@ -30,12 +30,12 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage, disabled = false }
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Type your message here..."
         disabled={disabled}
-        className="flex-1 p-2 bg-gray-800 text-white rounded-l-md outline-none focus:ring-1 focus:ring-chat-highlight"
+        className="flex-1 p-2 bg-gray-800 text-white rounded-l-md outline-none focus:ring-1 focus:ring-cyan-400"
       />
       <Button
         type="submit"
         disabled={disabled || !message.trim()}
-        className="rounded-l-none bg-chat-highlight text-gray-900 hover:bg-opacity-80 hover:bg-chat-highlight"
+        className="rounded-l-none bg-cyan-400 text-gray-900 hover:bg-opacity-80 hover:bg-cyan-400"
       >
         <ArrowRight size={20} />
       </Button>

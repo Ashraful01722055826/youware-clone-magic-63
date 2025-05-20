@@ -53,8 +53,8 @@ const Chat: React.FC = () => {
     setLoading(true);
     
     try {
-      // Use the API key to call the Google Gemini API
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent", {
+      // Updated API endpoint for Gemini API
+      const response = await fetch("https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,6 @@ const Chat: React.FC = () => {
         body: JSON.stringify({
           contents: [
             {
-              role: "user",
               parts: [
                 { 
                   text: text 
@@ -87,7 +86,7 @@ const Chat: React.FC = () => {
       
       const data = await response.json();
       
-      // Extract text from Gemini's response format
+      // Extract text from the updated Gemini response format
       const aiReply = data.candidates[0].content.parts[0].text;
       
       const aiMessage: Message = {
