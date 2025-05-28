@@ -11,7 +11,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({ onSettingsClick }) => {
   return (
     <header className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
       <div className="flex items-center">
-        <span className="text-cyan-400 font-semibold text-xl">Name ai assistant</span>
+        <span className="text-cyan-400 font-semibold text-xl">ai assistant</span>
       </div>
       <Button
         variant="ghost"
