@@ -2,31 +2,32 @@ name: Build and Zip Dist
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Build the project
+      - name: Build the App
         run: npm run build
 
-      - name: Zip dist folder
+      - name: Zip Dist Folder
         run: zip -r dist.zip dist
 
-      - name: Upload dist.zip as artifact
+      - name: Upload dist.zip Artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
